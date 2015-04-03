@@ -8,6 +8,12 @@ require("lib/apps")
 -- playground
 hs.hotkey.bind(hyper, 'd', function()
     hs.notify.new({ title = "hyper+d" }):send():release()
+
+    local running = hs.application.runningApplications()
+
+    for _,app in pairs(running) do
+        print(app:title())
+    end
 end)
 
 -- reset environment
