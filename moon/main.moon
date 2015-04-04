@@ -7,13 +7,13 @@ Reload = require("lua/reload")
 Reload(hammerSpoonConfigDir)\watch()
 
 -- playground
-hs.hotkey.bind hyper, 'd', ->
+hs.hotkey.bind(hyper, 'd', ->
     hs.notify.new({ title: "hyper+d" })\send()\release()
 
     running = hs.application.runningApplications()
     for _,app in pairs(running)
         print(app\title())
-
+)
 
 -- Reset environment
 hs.hotkey.bind(hyper, 'c', ->
