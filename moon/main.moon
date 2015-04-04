@@ -1,10 +1,11 @@
-hammerSpoonConfigDir = os.getenv("HOME") .. "/.hammerspoon/lua/"
-hyper = { 'cmd', 'alt', 'ctrl' }
-
 Reload = require("lua/reload")
 -- require("lib/apps")
 
-Reload(hammerSpoonConfigDir)\watch()
+hammerSpoonConfigDir = os.getenv("HOME") .. "/.hammerspoon/lua/"
+hyper = { 'cmd', 'alt', 'ctrl' }
+
+reload = Reload(hammerSpoonConfigDir)
+reload\watch()
 
 -- playground
 hs.hotkey.bind(hyper, 'd', ->
@@ -16,6 +17,7 @@ hs.hotkey.bind(hyper, 'd', ->
 )
 
 -- Reset environment
+hs.hotkey.bind(hyper, 'r', reload\reload)
 hs.hotkey.bind(hyper, 'c', ->
     hs.notify.new({ title: "hyper+c" })\send()\release()
     -- apps.launchApps
