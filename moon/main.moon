@@ -1,9 +1,10 @@
--- global vars used by errthing
-hammerSpoonConfigDir = os.getenv("HOME") .. "/.hammerspoon/"
+hammerSpoonConfigDir = os.getenv("HOME") .. "/.hammerspoon/lua/"
 hyper = { 'cmd', 'alt', 'ctrl' }
 
--- require("lib/reload")
+Reload = require("lua/reload")
 -- require("lib/apps")
+
+Reload(hammerSpoonConfigDir)\watch()
 
 -- playground
 hs.hotkey.bind hyper, 'd', ->
@@ -14,8 +15,9 @@ hs.hotkey.bind hyper, 'd', ->
         print(app\title())
 
 
--- reset environment
--- hs.hotkey.bind hyper, 'c', ->
---     hs.notify.new { title = "hyper+c" } :send :release
---     apps.launchApps
---     apps.killApps
+-- Reset environment
+hs.hotkey.bind(hyper, 'c', ->
+    hs.notify.new({ title: "hyper+c" })\send()\release()
+    -- apps.launchApps
+    -- apps.killApps
+)

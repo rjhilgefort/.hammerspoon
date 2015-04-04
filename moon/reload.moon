@@ -1,22 +1,24 @@
-local reload = {}
+defaultDir = os.getenv("HOME") .. "/.hammerspoon/"
 
--- Smart config reloading
-function reload.config(files)
-    for key,file in pairs(files) do
-        if file:sub(-4) == '.lua' then
-            hs.reload()
-            break
-        end
-    end
-end
+class Reload
+    -- Helpers ----------------------------------------------------------------
+    reload = (files) =>
+        if type files == nil then return
+        for _,file in pairs files do
+            if file\sub(-4) == '.lua'
+                hs.reload()
+                break
 
--- Go ahead and setup watcher
-hs.pathwatcher
-    .new(hammerSpoonConfigDir, reload.config)
-    :start()
-hs.notify.new({
-        title = "Hammerspoon Config Loaded",
-        informativeText = "Change Detected In: \n" .. hammerSpoonConfigDir
-    })
-    :send()
-    :release()
+    -- Instance ---------------------------------------------------------------
+    new: (dir=defaultDir) =>
+        @dir = dir
+
+    watch: () =>
+        print @dir
+        hs.pathwatcher.new(@dir, reload)\start()
+        hs.notify.new({
+                title: "Hammerspoon Config Loaded",
+                informativeText: "Change Detected In: \n" .. @dir
+            })\send()\release()
+
+return Reload
