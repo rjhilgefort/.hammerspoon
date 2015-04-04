@@ -9,7 +9,7 @@ class Reload
             })\send()\release()
 
     filesChanged = (files={}, extension='.lua') ->
-        for _,file in pairs files do
+        for _,file in pairs(files) do
             if file\sub(-4) == extension
                 reload()
                 break
@@ -20,10 +20,10 @@ class Reload
     new: (dir=defaultDir) =>
         @dir = dir
 
-    reload: () =>
+    reload: =>
         reload()
 
-    watch: () =>
+    watch: =>
         hs.pathwatcher.new(@dir, filesChanged)\start()
 
 return Reload
