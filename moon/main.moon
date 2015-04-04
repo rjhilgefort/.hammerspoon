@@ -9,7 +9,7 @@ reload\watch()
 
 -- playground
 hs.hotkey.bind(hyper, 'd', ->
-    hs.notify.new({ title: "hyper+d" })\send()\release()
+    hs.alert("hyper+d")
 
     running = hs.application.runningApplications()
     for _,app in pairs(running)
@@ -18,8 +18,10 @@ hs.hotkey.bind(hyper, 'd', ->
 
 -- Reset environment
 hs.hotkey.bind(hyper, 'r', reload\reload)
+
+-- Playground
 hs.hotkey.bind(hyper, 'c', ->
-    hs.notify.new({ title: "hyper+c" })\send()\release()
+    hs.alert("hyper+c")
     -- apps.launchApps
     -- apps.killApps
 )
