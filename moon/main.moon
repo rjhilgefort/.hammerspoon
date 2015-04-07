@@ -1,3 +1,4 @@
+_ = require("moses")
 Reload = require("lua/reload")
 -- require("lib/apps")
 
@@ -11,9 +12,7 @@ reload\watch()
 hs.hotkey.bind(hyper, 'd', ->
     hs.alert("hyper+d")
 
-    running = hs.application.runningApplications()
-    for _,app in pairs(running)
-        print(app\title())
+    _.each(hs.application.runningApplications(), (key, app) -> print app\title())
 )
 
 -- Reset environment

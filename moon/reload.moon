@@ -1,18 +1,19 @@
+_ = require("moses")
+
 class Reload
     -- Helpers ----------------------------------------------------------------
     defaultDir = os.getenv("HOME") .. "/.hammerspoon/"
 
-    reload = (files) ->
+    reload = () ->
         hs.reload()
-        hs.notify.new({
-                title: "Hammerspoon Config Loaded",
-            })\send()\release()
+        hs.notify.new({ title: "Hammerspoon Config Loaded" })\send()\release()
 
-    filesChanged = (files={}, extension='.lua') ->
-        for _,file in pairs(files) do
+    filesChanged = (files = {}, extension = '.lua') ->
+        _.each(files, (key, file) ->
             if file\sub(-4) == extension
                 reload()
-                break
+                return false
+        )
 
     -- Instance ---------------------------------------------------------------
     @dir = nil
