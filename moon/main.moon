@@ -1,8 +1,8 @@
-_ = require("moses")
+_ = require("lua/utils/moses")
 Reload = require("lua/reload")
--- require("lib/apps")
+Apps = require("lua/apps")
 
-hammerSpoonConfigDir = os.getenv("HOME") .. "/.hammerspoon/lua/"
+hammerSpoonConfigDir = os.getenv "HOME" .. "/.hammerspoon/lua/"
 hyper = { 'cmd', 'alt', 'ctrl' }
 
 reload = Reload(hammerSpoonConfigDir)

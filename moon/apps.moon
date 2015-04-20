@@ -1,58 +1,48 @@
--- List of all apps
-apps = {
-    'iTerm',
-    chrome: 'Google Chrome',
-    'Finder',
-    'Sonos',
-    'Messages',
-    'Spotify',
-    'Simplify',
-    onePassword: '1Password',
-    onePasswordMini: '1Password mini',
-    'Clear',
-    'Sunrise',
-    airmail: { app: 'Airmail Beta', title: 'Airmail' },
-    'Dash',
-    blink: 'Blink1Control',
-    'Hammerspoon',
-    'HipChat',
-    'Dropbox',
-    'iTunes',
-    'System Preferences',
-    battleNet: 'Battle.net',
-    'Xcode',
-    'Cobook'
-}
+json= require('cjson')
+_ = require("lua/utils/moses")
+message = require("lua/utils/message")
+Phandle = require("lua/utils/phandle")
+appsJson = require("apps")
 
-toLaunch = {
-    'iTerm', 'Google Chrome', 'Finder', 'Sonos', 'Messages', 'Spotify',
-    'Simplify', '1Password mini', 'Clear', 'Sunrise', 'Airmail Beta',
-    'Dash', 'Blink1Control', 'Hammerspoon', 'HipChat', 'Dropbox'
-}
-toKill = {
-    'iTunes',   'System Preferences', '1Password', 'Battle.net', 'Xcode',
-    'Cobook'
-}
+message.log appsJson
+-- print json.decode()
 
 -- process apps
-print("\n\n\nAPPS DEF:")
-for _,app in pairs(apps) do
-    print(app)
-print("\n\n\n")
+_.each apps, (key, value) ->
+   if _.isString(value) then value = { app: value }
+   if not _.has(value, 'app')
+      message.error "`app` must be defined. Taking `key` (which is probably meaningless)"
+      value.app = key
+   if not _.has(value, 'title') then value.title = value.app
 
+   -- if _.isNumber(key)
+   _.camelCaseify(key)
+
+   -- assign new object
+   apps[key] = value
 
 class Apps
-    -- Helpers ----------------------------------------------------------------
-    -- Instance ---------------------------------------------------------------
-    @apps = {}
-    @toLaunch = {}
-    @toKill = {}
+   -- Helpers ----------------------------------------------------------------
+   -- Instance ---------------------------------------------------------------
+   new: (params={}) =>
+      if not _.isTable(params) then params = {}
+      if not _.isString(params.apps) params.apps = ''
+      if not _.isString(params.toLaunch) params.toLaunch = ''
+      if not _.isString(params.toKill) params.toKill = ''
 
-    new: (apps={}) =>
-        -- TODO: if apps is string and ends in json, read from there
-        @apps = apps
+      -- TODO: if apps is string and ends in json, read from there
+      @apps = apps
+      @toLaunch = {}
+      @toKill = {}
 
-    -- Class ------------------------------------------------------------------
+   -- set: (keyName, value) =>
+
+
+   -- Class ------------------------------------------------------------------
+   @defaultAppsDir
+
+
+return Apps
 
 -- TODO:
 -- Capture all visible windows on all screens before doing anything else, then

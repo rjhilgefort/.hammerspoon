@@ -1,0 +1,12 @@
+{
+  "toLaunch": [
+    "iTerm",
+    "Google Chrome", "Finder", "Sonos", "Messages", "Spotify",
+    "Simplify", "1Password mini", "Clear", "Sunrise", "Airmail Beta",
+    "Dash", "Blink1Control", "Hammerspoon", "HipChat", "Dropbox"
+  ],
+  "toKill": [
+    "iTunes", "System Preferences", "1Password", "Battle.net", "Xcode",
+    "Cobook"
+  ]
+}

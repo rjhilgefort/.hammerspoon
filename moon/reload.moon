@@ -1,30 +1,31 @@
-_ = require("moses")
+_ = require("lua/utils/moses")
 
 class Reload
     -- Helpers ----------------------------------------------------------------
-    defaultDir = os.getenv("HOME") .. "/.hammerspoon/"
-
-    reload = () ->
-        hs.reload()
-        hs.notify.new({ title: "Hammerspoon Config Loaded" })\send()\release()
-
-    filesChanged = (files = {}, extension = '.lua') ->
-        _.each(files, (key, file) ->
+    filesChanged = (files={}, extension='.lua') ->
+        _.each files, (key, file) ->
             if file\sub(-4) == extension
-                reload()
+                @@reload!
                 return false
-        )
 
     -- Instance ---------------------------------------------------------------
-    @dir = nil
-
-    new: (dir=defaultDir) =>
+    new: (dir=@@defaultHammerspoonHome) =>
         @dir = dir
 
     reload: =>
-        reload()
+        @@reload!
 
     watch: =>
-        hs.pathwatcher.new(@dir, filesChanged)\start()
+        watcher = hs.pathwatcher.new @dir, filesChanged
+        watcher\start!
+
+    -- Class ------------------------------------------------------------------
+    @defaultHammerspoonHome: os.getenv "HOME" .. "/.hammerspoon/"
+
+    @reload: () ->
+        hs.reload!
+        notify = hs.notify.new({ title: "Hammerspoon Config Loaded" })
+        notify\send!
+        notify\release!
 
 return Reload
