@@ -10,9 +10,35 @@ message = require "lua/utils/message"
 
 class Apps
    -- Helpers ----------------------------------------------------------------
-   processAppsTable = (apps={}) ->
-      _.each(apps, (key, value) ->
-          if _.isString value then value = { app: value }
+
+   -- Instance ---------------------------------------------------------------
+   new: (params={}) =>
+      if not _.isTable params then params = {}
+      if not _.isString params.apps then params.apps = ''
+      if not _.isString params.toLaunch then params.toLaunch = ''
+      if not _.isString params.toKill then params.toKill = ''
+
+      -- TODO: if apps is string and ends in json, read from there
+      @apps = params.apps
+      @toLaunch = {}
+      @toKill = {}
+
+      @processAppsTable!
+
+   processAppsTable: =>
+      return @@processAppsTable @apps
+
+   -- set: (keyName, value) =>
+
+   -- Class ------------------------------------------------------------------
+   @defaultAppsData: os.getenv "HOME" .. "/.hammerspoon/apps.json"
+
+   @processAppsTable: (apps={}) ->
+      if _.isEmpty apps then return {}
+
+      _.each apps, (key, value) ->
+          if not _.isTable value then value = { app: value }
+          message.log key
           if not _.has value, 'app'
              message.error "`app` must be defined. Taking `key` (which is probably meaningless)"
              value.app = key
@@ -23,24 +49,7 @@ class Apps
 
           -- assign new object
           apps[key] = value
-      )
 
-   -- Instance ---------------------------------------------------------------
-   new: (params={}) =>
-      if not _.isTable params then params = {}
-      if not _.isString params.apps then params.apps = ''
-      if not _.isString params.toLaunch then params.toLaunch = ''
-      if not _.isString params.toKill then params.toKill = ''
-
-      -- TODO: if apps is string and ends in json, read from there
-      @apps = apps
-      @toLaunch = {}
-      @toKill = {}
-
-   -- set: (keyName, value) =>
-
-   -- Class ------------------------------------------------------------------
-   @defaultAppsData: os.getenv "HOME" .. "/.hammerspoon/apps.json"
 
 return Apps
 

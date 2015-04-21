@@ -1,3 +1,7 @@
+ -- cause life is hard
+print "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n" ..
+        "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
+
 _ = require "lua/utils/moses"
 Reload = require "lua/reload"
 Apps = require "lua/apps"
@@ -9,6 +13,8 @@ hyper = { 'cmd', 'alt', 'ctrl' }
 -- Set up reload stuff
 reload = Reload hammerSpoonConfigDir
 reload\watch!
+
+apps = Apps!
 
 -- Reset environment
 hs.hotkey.bind hyper, 'r', reload\reload
