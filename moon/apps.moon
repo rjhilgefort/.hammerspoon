@@ -1,34 +1,36 @@
-json= require('cjson')
-_ = require("lua/utils/moses")
-message = require("lua/utils/message")
-Phandle = require("lua/utils/phandle")
-appsJson = require("apps")
+json= require "cjson"
+_ = require "lua/utils/moses"
+message = require "lua/utils/message"
+-- Phandle = require "lua/utils/phandle"
+-- appsJson = require "apps.json"
 
-message.log appsJson
+-- message.log appsJson
 -- print json.decode()
 
--- process apps
-_.each apps, (key, value) ->
-   if _.isString(value) then value = { app: value }
-   if not _.has(value, 'app')
-      message.error "`app` must be defined. Taking `key` (which is probably meaningless)"
-      value.app = key
-   if not _.has(value, 'title') then value.title = value.app
-
-   -- if _.isNumber(key)
-   _.camelCaseify(key)
-
-   -- assign new object
-   apps[key] = value
 
 class Apps
    -- Helpers ----------------------------------------------------------------
+   processAppsTable = (apps={}) ->
+      _.each(apps, (key, value) ->
+          if _.isString value then value = { app: value }
+          if not _.has value, 'app'
+             message.error "`app` must be defined. Taking `key` (which is probably meaningless)"
+             value.app = key
+          if not _.has value, 'title' then value.title = value.app
+
+          -- if _.isNumber(key)
+          _.camelCaseify key
+
+          -- assign new object
+          apps[key] = value
+      )
+
    -- Instance ---------------------------------------------------------------
    new: (params={}) =>
-      if not _.isTable(params) then params = {}
-      if not _.isString(params.apps) params.apps = ''
-      if not _.isString(params.toLaunch) params.toLaunch = ''
-      if not _.isString(params.toKill) params.toKill = ''
+      if not _.isTable params then params = {}
+      if not _.isString params.apps then params.apps = ''
+      if not _.isString params.toLaunch then params.toLaunch = ''
+      if not _.isString params.toKill then params.toKill = ''
 
       -- TODO: if apps is string and ends in json, read from there
       @apps = apps
@@ -37,10 +39,8 @@ class Apps
 
    -- set: (keyName, value) =>
 
-
    -- Class ------------------------------------------------------------------
-   @defaultAppsDir
-
+   @defaultAppsData: os.getenv "HOME" .. "/.hammerspoon/apps.json"
 
 return Apps
 

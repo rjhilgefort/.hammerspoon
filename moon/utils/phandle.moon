@@ -1,4 +1,4 @@
-_ = require("lua/utils/moses")
+_ = require "lua/utils/moses"
 defaults = require "lua/utils/type-defaults"
 
 class Phandle

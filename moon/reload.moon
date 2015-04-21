@@ -1,4 +1,4 @@
-_ = require("lua/utils/moses")
+_ = require "lua/utils/moses"
 
 class Reload
     -- Helpers ----------------------------------------------------------------
@@ -20,7 +20,7 @@ class Reload
         watcher\start!
 
     -- Class ------------------------------------------------------------------
-    @defaultHammerspoonHome: os.getenv "HOME" .. "/.hammerspoon/"
+    @defaultHammerspoonHome = os.getenv("HOME") .. "/.hammerspoon/"
 
     @reload: () ->
         hs.reload!
