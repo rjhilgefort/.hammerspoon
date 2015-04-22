@@ -12,7 +12,7 @@ generateEnsure = (genType='') ->
       print defaults[genType]
       if _.isNil default then default = defaults[genType]
       print default
-      if not _['is' .. _.titleCase(genType)] obj then obj = default
+      -- if not _['is' .. _.titleCase(genType)] obj then obj = default
       print default
       return obj
 
@@ -34,7 +34,9 @@ _.enFunction = generateEnsure 'function'
 
 _.titleCase = (obj) ->
    _.enString obj
-   return obj
+   return obj\gsub("(%a)([%w_']*)", (first, rest) ->
+      return first\upper! .. rest\lower!
+   )
 
 _.camelCase = (obj='') ->
    print obj

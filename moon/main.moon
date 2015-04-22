@@ -8,6 +8,7 @@ Apps = require "lua/apps"
 
 
 -- DEBUGGING
+_.enString false
 -- print "\n\n\n\n\n\n\n\n\n\n" -- Turn on for debugging playground above
 
 -- Local vars
