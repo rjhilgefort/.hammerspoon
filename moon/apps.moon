@@ -45,7 +45,7 @@ class Apps
           if not _.has value, 'title' then value.title = value.app
 
           -- if _.isNumber(key)
-          _.camelCaseify key
+          _.camelCase key
 
           -- assign new object
           apps[key] = value

@@ -6,6 +6,10 @@ _ = require "lua/utils/moses"
 Reload = require "lua/reload"
 Apps = require "lua/apps"
 
+
+-- DEBUGGING
+-- print "\n\n\n\n\n\n\n\n\n\n" -- Turn on for debugging playground above
+
 -- Local vars
 hammerSpoonConfigDir = os.getenv "HOME" .. "/.hammerspoon/lua/"
 hyper = { 'cmd', 'alt', 'ctrl' }
