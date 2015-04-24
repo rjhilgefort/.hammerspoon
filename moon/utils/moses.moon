@@ -16,10 +16,16 @@ _.camelCase = (obj='') ->
    print obj
 
 
--- TODO: This is a stupid implementation of endsWith, use regex...
-_.endsWith = (obj='', value) ->
-   obj = _.enString obj
-   value = _.enString value
+_.startsWith = (obj, value) ->
+   if not _.isString obj then return false
+   if not _.isString value then return false
+
+   return obj\sub(1, value\len!) == value
+
+
+_.endsWith = (obj, value) ->
+   if not _.isString obj then return false
+   if not _.isString value then return false
 
    -- determine end
    valueLength = value\len()
