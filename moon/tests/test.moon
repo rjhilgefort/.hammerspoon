@@ -94,9 +94,15 @@ describe header("#hammerspoon"), ->
             assert.is_same _.titleCase('FOO bAr, bAZ'), 'Foo Bar, Baz'
 
 
-         -- it header("camelCase"), ->
-         --    assert.is_same _.camelCase('foo bar'), 'fooBar'
-         --    assert.is_same _.camelCase('foo bar, baz'), 'Foo Bar, Baz'
+         it header("camelCase"), ->
+            assert.is_same _.camelCase('foo bar baz'), 'fooBarBaz'
+            assert.is_same _.camelCase('Foo bar baz'), 'fooBarBaz' -- TODO: Currently failing
+            assert.is_same _.camelCase('foo-bar-baz'), 'fooBarBaz'
+            assert.is_same _.camelCase('foo_bar_baz'), 'fooBarBaz'
+            assert.is_same _.camelCase('foo-bar__baz'), 'fooBarBaz'
+            assert.is_same _.camelCase('foo bar bazFoo'), 'fooBarBazFoo'
+            assert.is_same _.camelCase('foo bar, baz'), 'fooBarBaz'
+            assert.is_same _.camelCase('foo bar,._- baz'), 'fooBarBaz'
 
 
          it header("endsWith"), ->

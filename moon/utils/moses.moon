@@ -13,8 +13,14 @@ _.titleCase = (obj='') ->
 
 
 _.camelCase = (obj='') ->
-   print obj
+   if not _.isString obj then obj = defaults.string
 
+   obj = obj\gsub "[%s%p]+(%w)", (match1) ->
+	  if _.isString match1 then return match1\upper!
+	  return obj\gsub "^(%a)", (match1) ->
+		 return match1\lower!
+
+   return obj
 
 _.startsWith = (obj, value) ->
    if not _.isString obj then return false
