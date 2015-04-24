@@ -5,37 +5,65 @@ Reload = require "lua/reload"
 Apps = require "lua/apps"
 
 
+-------------------------------------------------------------------------------
+-- HELPERS
+-------------------------------------------------------------------------------
 header = (text='') -> return ">> " .. text
 
 
+defaultExamples = {
+   nil: nil,
+   boolean: true,
+   number: 7,
+   string: 'foo',
+   function: -> return 'function'
+   table: { foo: 'foo' }
+}
+
+
+getOtherDefaults = (exclude) ->
+   exclude = _.enString exclude
+
+   otherDefaults = _.clone defaults
+   otherDefaults[exclude] = nil
+
+   return otherDefaults
+
+
+
+-------------------------------------------------------------------------------
+-- START TEST DEFS
+-------------------------------------------------------------------------------
 describe header("#hammerspoon"), ->
 
 
    describe header("#moses"), ->
 
 
+      -- Because I don't trust Moses
+      describe header("#moses-included"), ->
+
+
+         it header("isString"), ->
+            assert.is_true _.isString ''
+
+            _.each getOtherDefaults('string'), (key, value) ->
+               assert.is_false _.isString value
+
+
       describe header("#moses-extras"), ->
 
 
          it header("isPresent"), ->
-            pulledDefaults = _.pull defaults, nil
             assert.is_false _.isPresent nil
-            -- Check valid all valid launguage types: boolean, number, string, function, table
-            _.each pulledDefaults, (key, value) ->
+
+            _.each getOtherDefaults('nil'), (key, value) ->
                assert.is_true _.isPresent value
 
 
       describe header("#moses-ensure"), ->
 
-         defaultExamples = {
-            nil: nil,
-            boolean: true,
-            number: 7,
-            string: 'foo',
-            function: -> return 'function'
-            table: { foo: 'foo' }
-         }
-
+         -- Generate each of the tests for ensure methods
          _.each defaults, (defaultType, defaultValue) ->
             method = 'en' .. _.titleCase defaultType
             defaultExample = defaultExamples[defaultType]
@@ -73,5 +101,20 @@ describe header("#hammerspoon"), ->
 
          it header("endsWith"), ->
             assert.is_same _.endsWith('foobar', 'bar'), true
-            assert.is_same _.endsWith('foobar', 'rab'), false
+
+            assert.is_same _.endsWith('foobar', 'foo'), false
+            assert.is_same _.endsWith('foobar', 7), false
+            assert.is_same _.endsWith('foobar', {}), false
+            assert.is_same _.endsWith('foobar', ->), false
+            assert.is_same _.endsWith('foobar', nil), false
+
+
+         it header("startsWith"), ->
+            assert.is_same _.startsWith('foobar', 'foo'), true
+
+            assert.is_same _.startsWith('foobar', 'bar'), false
+            assert.is_same _.startsWith('foobar', 7), false
+            assert.is_same _.startsWith('foobar', {}), false
+            assert.is_same _.startsWith('foobar', ->), false
+            assert.is_same _.startsWith('foobar', nil), false
 
