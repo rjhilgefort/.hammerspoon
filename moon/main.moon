@@ -1,15 +1,16 @@
- -- cause life is hard
-print "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n" ..
-        "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
-
 _ = require "lua/utils/moses"
 Reload = require "lua/reload"
 Apps = require "lua/apps"
 
 
 -- DEBUGGING
-_.enString false
--- print "\n\n\n\n\n\n\n\n\n\n" -- Turn on for debugging playground above
+print "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n" ..
+        "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
+print '---'
+print '---'
+print "\n\n\n\n\n\n\n\n\n\n"
+-- /DEBUGGING
+
 
 -- Local vars
 hammerSpoonConfigDir = os.getenv "HOME" .. "/.hammerspoon/lua/"

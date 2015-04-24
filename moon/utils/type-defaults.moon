@@ -4,9 +4,9 @@ return {
    boolean: false,
    number: 0,
    string: '',
-   userdata: nil, -- TODO
+   -- userdata: nil, -- TODO
    function: ->
-   thread: nil, -- TODO
+   -- thread: nil, -- TODO
    table: {}
 }
 
