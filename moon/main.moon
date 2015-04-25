@@ -1,26 +1,41 @@
-_ = require "lua/utils/moses"
 Reload = require "lua/reload"
-Apps = require "lua/apps"
+Config = require "lua/config"
+
+_ = require "lua/utils/moses"
+userConfig = require "lua/hammerfork"
 
 
 -- DEBUGGING
 print "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n" ..
-        "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
-print '---'
-print '---'
+      "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
+print '-----------------------------------------------'
+print '-----------------------------------------------'
 print "\n\n\n\n\n\n\n\n\n\n"
 -- /DEBUGGING
 
 
+-------------------------------------------------------------------------------
+-- Setup
+-------------------------------------------------------------------------------
+
 -- Local vars
-hammerSpoonConfigDir = os.getenv "HOME" .. "/.hammerspoon/lua/"
-hyper = { 'cmd', 'alt', 'ctrl' }
+config = Config userConfig
 
 -- Set up reload stuff
-reload = Reload hammerSpoonConfigDir
+reload = Reload(os.getenv("HOME") .. "/.hammerspoon/lua/")
 reload\watch!
 
-apps = Apps!
+
+-------------------------------------------------------------------------------
+-- Keys
+-------------------------------------------------------------------------------
+
+hyper = { 'cmd', 'alt', 'ctrl' }
+
+
+-------------------------------------------------------------------------------
+-- Binds
+-------------------------------------------------------------------------------
 
 -- Reset environment
 hs.hotkey.bind hyper, 'r', reload\reload
@@ -30,7 +45,7 @@ hs.hotkey.bind hyper, 'd', ->
     hs.alert "hyper+d"
     _.each hs.application.runningApplications!, (key, app) -> print app\title!
 
--- Playground
+-- Layout Test
 hs.hotkey.bind hyper, 'c', ->
     hs.alert "hyper+c"
     -- apps.launchApps
