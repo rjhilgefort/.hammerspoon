@@ -96,7 +96,7 @@ describe header("#hammerspoon"), ->
 
          it header("camelCase"), ->
             assert.is_same _.camelCase('foo bar baz'), 'fooBarBaz'
-            assert.is_same _.camelCase('Foo bar baz'), 'fooBarBaz' -- TODO: Currently failing
+            assert.is_same _.camelCase('Foo bar baz'), 'fooBarBaz'
             assert.is_same _.camelCase('foo-bar-baz'), 'fooBarBaz'
             assert.is_same _.camelCase('foo_bar_baz'), 'fooBarBaz'
             assert.is_same _.camelCase('foo-bar__baz'), 'fooBarBaz'

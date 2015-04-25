@@ -15,6 +15,7 @@ _.titleCase = (obj='') ->
 _.camelCase = (obj='') ->
    if not _.isString obj then obj = defaults.string
 
+   obj = obj\gsub "^%a", string.lower
    obj = obj\gsub "[%s%p]+(%w)", (match1) ->
 	  if _.isString match1 then return match1\upper!
 	  return obj\gsub "^(%a)", (match1) ->
