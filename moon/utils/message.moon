@@ -20,4 +20,10 @@ message.log = generateMessageMethod('log')
 message.warn = generateMessageMethod('warn')
 message.error = generateMessageMethod('error')
 
+
+-- TODO: Don't leave these here
+-- TODO: Make a class of this `message` object and allow messages to be set on an instance
+message.badTable = -> return message.error "`params` must be a well populated config table"
+
+
 return message

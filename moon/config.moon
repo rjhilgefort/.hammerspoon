@@ -7,42 +7,35 @@ class Config
 
    -- Instance ---------------------------------------------------------------
    new: (params) =>
-      badTable = -> return message.error "`params` must be a well populated config table"
-
       -- TODO: if apps is string and ends in json, read from there
       -- if _.isString params then -- TODO: load config file on the fly from path (params)
-      if not _.isTable params then return badTable!
-
+      if not _.isTable params then return message.badTable!
       params.apps = _.enTable params.apps
       @apps = @@processAppsTable params.apps
-
-      params.apps = _.enTable params.layouts
-      @layouts = params.layouts
+      _.printTable @apps
+      @layouts = _.enTable params.layouts
+      return @
 
 
    processAppsTable: =>
-      return @@processAppsTable @apps
+      @apps = @@processAppsTable
+      return @
+
 
    -- set: (keyName, value) =>
 
    -- Class ------------------------------------------------------------------
-   @defaultAppsData: os.getenv "HOME" .. "/.hammerspoon/apps.json"
-
    @processAppsTable: (apps={}) ->
+      apps = _.enTable apps
       if _.isEmpty apps then return {}
 
-      _.each apps, (key, value) ->
-         value = _.enTable value, { app: value }
-         if not _.has value, 'app'
-            message.error "`app` must be defined. Taking `key` (which is probably meaningless)"
-            value.app = key
-         if not _.has value, 'title' then value.title = value.app
+      _.map apps, (key, value) ->
+         if _.isString value then value = { app: value }
+         if not _.isTable value then return message.badTable!
+         value.title = _.enString value.title, value.app
+         return value
 
-         -- if _.isNumber(key)
-         _.camelCase key
-
-         -- assign new object
-         apps[key] = value
+      return apps
 
 
 return Config
