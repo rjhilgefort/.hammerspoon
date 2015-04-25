@@ -17,6 +17,21 @@ class Config
       @conf = @@processConfTable @conf
 
 
+   -- TODO: Capture all visible windows on all screens before doing anything else, then
+   --      refocus them after launching all the things
+   layout: (name) =>
+      message.log "LAYOUT: "..name
+      name = _.enString name
+      if _.isNil @conf.layouts[name] then return message.error "layout: '"..name.."' not found"
+
+      layout = @conf.layouts[name]
+
+      -- launch each and try to hide it based on title
+      _.each layout.launch, (key, appId) ->
+         app = @conf.apps[appId]
+         hs.application.launchOrFocus(app.name)
+         program = hs.appfinder.appFromName(app.title)
+         if _.isPresent program then program\hide!
 
 
    -- Class ------------------------------------------------------------------
@@ -44,19 +59,6 @@ class Config
 
 return Config
 
--- TODO:
--- Capture all visible windows on all screens before doing anything else, then
---      refocus them after launching all the things
--- function apps.launchApps()
---     for _,appName in pairs(toLaunch) do
---         hs.application.launchOrFocus(appName)
---         local app = hs.appfinder.appFromName(appName)
---         if (app ~= nil) then
---             print("Hiding " .. appName)
---             app:hide()
---         end
---     end
--- end
 
 -- Kill any running apps in the kill list
 -- function apps.killApps()

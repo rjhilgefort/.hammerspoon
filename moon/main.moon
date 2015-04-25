@@ -48,5 +48,4 @@ hs.hotkey.bind hyper, 'd', ->
 -- Layout Test
 hs.hotkey.bind hyper, 'c', ->
     hs.alert "hyper+c"
-    -- apps.launchApps
-    -- apps.killApps
+    config\layout 'laptop'
