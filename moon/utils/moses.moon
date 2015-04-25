@@ -3,6 +3,24 @@ defaults = require "lua/utils/type-defaults"
 
 
 -------------------------------------------------------------------------------
+-- HELPERS
+-------------------------------------------------------------------------------
+
+generateEnsure = (genType='') ->
+   isType = _['is' .. _.titleCase genType]
+
+   return (obj, default) ->
+      -- ensure default is present and valid
+      if _.isNil default then default = defaults[genType]
+      if not isType default then default = defaults[genType]
+
+      if not isType obj then obj = default
+      return obj
+
+
+
+
+-------------------------------------------------------------------------------
 -- STRINGS
 -------------------------------------------------------------------------------
 
@@ -51,28 +69,13 @@ _.endsWith = (obj, value) ->
 
 
 -------------------------------------------------------------------------------
--- HELPERS
--------------------------------------------------------------------------------
-
-generateEnsure = (genType='') ->
-   isType = _['is' .. _.titleCase genType]
-
-   return (obj, default) ->
-      -- ensure default is present and valid
-      if _.isNil default then default = defaults[genType]
-      if not isType default then default = defaults[genType]
-
-      if not isType obj then obj = default
-      return obj
-
-
--------------------------------------------------------------------------------
 -- EXTRAS
 -------------------------------------------------------------------------------
 
 -- Helper for a positive check (alias for not nil)
 _.isPresent = (obj) ->
    return not _.isNil obj
+
 
 -- Ensure methods
 _.enString = generateEnsure 'string'
