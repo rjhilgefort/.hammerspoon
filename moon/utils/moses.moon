@@ -16,12 +16,21 @@ _.camelCase = (obj='') ->
    if not _.isString obj then obj = defaults.string
 
    obj = obj\gsub "^%a", string.lower
+
    obj = obj\gsub "[%s%p]+(%w)", (match1) ->
-	  if _.isString match1 then return match1\upper!
-	  return obj\gsub "^(%a)", (match1) ->
-		 return match1\lower!
+      if _.isString match1 then return match1\upper!
+      return obj\gsub "^(%a)", (match1) ->
+         return match1\lower!
 
    return obj
+
+
+-- TODO: Became unnecessary. could be nice though
+-- Calls `camelCase` and does additionaly operations only when necessary
+_.tableKeyCase = (obj='') ->
+   obj = _.camelCase obj
+   return obj
+
 
 _.startsWith = (obj, value) ->
    if not _.isString obj then return false

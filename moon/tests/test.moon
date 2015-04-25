@@ -105,6 +105,11 @@ describe header("#hammerspoon"), ->
             assert.is_same _.camelCase('foo bar,._- baz'), 'fooBarBaz'
 
 
+         it header("tableKeyCase"), ->
+            assert.is_same _.camelCase('Battle.net'), 'battleNet'
+            -- assert.is_same _.camelCase('Blink1Control'), 'blinkOneControl'
+
+
          it header("endsWith"), ->
             assert.is_same _.endsWith('foobar', 'bar'), true
 
