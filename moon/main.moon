@@ -6,11 +6,11 @@ userConfig = require "lua/hammerfork"
 
 
 -- DEBUGGING
-print "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n" ..
-      "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
-print '-----------------------------------------------'
-print '-----------------------------------------------'
-print "\n\n\n\n\n\n\n\n\n\n"
+_.print "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n" ..
+        "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
+_.print '-----------------------------------------------'
+_.print '-----------------------------------------------'
+_.print "\n\n\n\n\n\n\n\n\n\n"
 -- /DEBUGGING
 
 
@@ -43,7 +43,7 @@ hs.hotkey.bind hyper, 'r', reload\reload
 -- Playground
 hs.hotkey.bind hyper, 'd', ->
     hs.alert "hyper+d"
-    _.each hs.application.runningApplications!, (key, app) -> print app\title!
+    _.each hs.application.runningApplications!, (key, app) -> _.print app\title!
 
 -- Layout Test
 hs.hotkey.bind hyper, 'c', ->

@@ -1,3 +1,5 @@
+_ = require "lua/utils/moses"
+
 -- Helpers
 generateMessageMethod = (genType='') ->
    resolver = {
@@ -23,7 +25,13 @@ message.error = generateMessageMethod('error')
 
 -- TODO: Don't leave these here
 -- TODO: Make a class of this `message` object and allow messages to be set on an instance
-message.badTable = -> return message.error "`params` must be a well populated config table"
+message.badTable = (identifier='', value) ->
+   identifier = _.enString identifier
+   if _.isEmpty identifier then identifier = '[unknown param]'
+   if not _.isEmpty identifier then identifier = '"' .. identifier .. '"'
+
+   message.error identifier .. " must be table: "
+   _.print(value)
 
 
 return message

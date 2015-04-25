@@ -1,6 +1,7 @@
 _ = require("moses")
 defaults = require "lua/utils/type-defaults"
 
+pretty = require "pl.pretty"
 
 -------------------------------------------------------------------------------
 -- HELPERS
@@ -87,5 +88,11 @@ _.enNil = generateEnsure 'nil'
 _.enPresent = (obj, default) ->
    if _.isNil obj then obj = default
    return obj
+
+
+_.print = (obj)->
+   if _.isTable obj then return pretty.dump obj
+   print obj
+
 
 return _
