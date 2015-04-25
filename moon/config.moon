@@ -6,31 +6,40 @@ class Config
    -- Helpers ----------------------------------------------------------------
 
    -- Instance ---------------------------------------------------------------
-   new: (params) =>
+   new: (conf) =>
       -- TODO: if apps is string and ends in json, read from there
-      -- if _.isString params then -- TODO: load config file on the fly from path (params)
-      if not _.isTable params then return message.badTable 'params'
-
-      @apps = _.enTable params.apps
-      @processAppsTable!
-
-      @layouts = _.enTable params.layouts
-      return @
+      -- if _.isString conf then -- TODO: load config file on the fly from path (conf)
+      if not _.isTable conf then return message.badTable 'conf'
+      @conf = @@processConfTable conf
 
 
-   processAppsTable: =>
-      @apps = @@processAppsTable @apps
+   processConfTable: =>
+      @conf = @@processConfTable @conf
+
+
 
 
    -- Class ------------------------------------------------------------------
-   @processAppsTable: (apps={}) =>
-      apps = _.enTable apps
+   @processConfTable: (conf) =>
+      conf = _.enTable conf
 
-      return _.map apps, (key, value) ->
-         if _.isString value then value = { app: value }
-         if not _.isTable value then return message.badTable 'app value', value
-         value.title = _.enString value.title, value.app
-         return value
+      -- Handle `apps`
+      conf.apps = _.enTable conf.apps
+      conf.apps = _.map conf.apps, (key, app) ->
+         if _.isString app then app = { name: app }
+         if not _.isTable app then return message.badTable 'app', app
+         app.title = _.enString app.title, app.name
+         return app
+
+      -- Handle `layouts`
+      conf.layouts = _.enTable conf.layouts
+      conf.layouts = _.map conf.layouts, (key, layout) ->
+         layout = _.enTable layout
+         layout.launch = _.enTable layout.launch
+         layout.kill = _.enTable layout.kill
+         return layout
+
+      return conf
 
 
 return Config
