@@ -18,6 +18,13 @@ return {
     ---------------------------------------------------------------------------
     layouts: {
 
+        demo_a: {
+            launch: { 'systemPrefs', 'preview', 'cobook' }
+        }
+        demo_b: {
+            kill: { 'systemPrefs', 'preview', 'cobook' }
+        }
+
         playground: {
             launch: {}
             kill: commonKill
