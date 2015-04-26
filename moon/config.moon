@@ -27,11 +27,18 @@ class Config
       layout = @conf.layouts[id]
 
       -- launch each and try to hide it based on title
-      _.each layout.launch, (key, appId) ->
-         app = @conf.apps[appId]
-         hs.application.launchOrFocus(app.id)
-         application = hs.appfinder.appFromName(app.title)
-         if _.isPresent application then application\hide!
+      if _.has layout, 'launch' then
+         _.each layout.launch, (key, appId) ->
+            app = @conf.apps[appId]
+            hs.application.launchOrFocus(app.id)
+            application = hs.appfinder.appFromName(app.title)
+            if _.isPresent application then application\hide!
+
+      -- kill each
+      if _.has layout, 'kill' then
+         _.each hs.application.runningApplications!, (key, application) ->
+            if _.contains _.pluck(layout.kill, 'title'), application\title!
+               application\kill!
 
 
    -- Class ------------------------------------------------------------------
@@ -64,11 +71,3 @@ class Config
 
 
 return Config
-
-
--- Kill any running apps in the kill list
--- function apps.killApps()
---     for i,app in pairs(hs.application.runningApplications()) do
---         if (hs.fnutils.contains(toKill, app:title())) then app:kill() end
---     end
--- end
