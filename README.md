@@ -1,15 +1,15 @@
 @rjhilgefort's Hammerspoon configuration
 ========================================
 
-This is not your mama's standard .hammerspoon. I'm still fleshing out configuration strategies and features. Check back later for a pretty document here (or check the source).
+This is not your mama's standard .hammerspoon. I'm still fleshing out configuration strategies and features. Check back later for a pretty document (or poke around the source).
 
 
 Installation
 ------------
 
-- Install [Hammerspoon](http://www.hammerspoon.org/)(HS henceforth).
+- Install [Hammerspoon](http://www.hammerspoon.org/) (HS henceforth).
 - Clone/Fork this repo to `~/.hammerspoon`
-- `cd ~/.hammerspoon && ./scripts/compile.sh`
+- Run `cd ~/.hammerspoon && ./scripts/compile.sh`
 - Run HS. Or, tell HS to reload the config with: `hs.reload()` in the HS console
 
 
@@ -29,3 +29,7 @@ I decided to write this thing in Moonscript because Lua was very verbouse (and q
 - `reload.moon`: A simple reload class I wrote around the `hs.reload` methods.
 - `main.moon`: The entrypoint for the application and where you'll set up 'binds' and other things (for now- I plan to move it).
 
+Tests
+-----
+
+[Busted](http://olivinelabs.com/busted/) seemed to be the only viable testing framework for Lua. Running tests is as easy as `busted ./moon/tests/test.moon`
