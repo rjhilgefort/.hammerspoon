@@ -19,19 +19,19 @@ class Config
 
    -- TODO: Capture all visible windows on all screens before doing anything else, then
    --      refocus them after launching all the things
-   layout: (name) =>
-      message.log "LAYOUT: "..name
-      name = _.enString name
-      if _.isNil @conf.layouts[name] then return message.error "layout: '"..name.."' not found"
+   layout: (id) =>
+      message.log "LAYOUT: "..id
+      id = _.enString id
+      if _.isNil @conf.layouts[id] then return message.error "layout: '"..id.."' not found"
 
-      layout = @conf.layouts[name]
+      layout = @conf.layouts[id]
 
       -- launch each and try to hide it based on title
       _.each layout.launch, (key, appId) ->
          app = @conf.apps[appId]
-         hs.application.launchOrFocus(app.name)
-         program = hs.appfinder.appFromName(app.title)
-         if _.isPresent program then program\hide!
+         hs.application.launchOrFocus(app.id)
+         application = hs.appfinder.appFromName(app.title)
+         if _.isPresent application then application\hide!
 
 
    -- Class ------------------------------------------------------------------
@@ -41,18 +41,24 @@ class Config
       -- Handle `apps`
       conf.apps = _.enTable conf.apps
       conf.apps = _.map conf.apps, (key, app) ->
-         if _.isString app then app = { name: app }
+         if _.isString app then app = { title: app }
          if not _.isTable app then return message.badTable 'app', app
-         app.title = _.enString app.title, app.name
+         app.name = _.enString app.name, app.title
          return app
 
       -- Handle `layouts`
       conf.layouts = _.enTable conf.layouts
-      conf.layouts = _.map conf.layouts, (key, layout) ->
+      conf.layouts = _.map conf.layouts, (layoutId, layout) ->
          layout = _.enTable layout
-         layout.launch = _.enTable layout.launch
-         layout.kill = _.enTable layout.kill
-         return layout
+
+         -- Inflace all appIds
+         return _.map layout, (listId, list) ->
+            if _.isString list then list = { list }
+            list = _.enTable list
+            return _.map list, (key, appId) ->
+               app = conf.apps[appId]
+               if _.isNil app then return message.alert "APP NOT FOUND: 'layouts."..layoutId.."."..listId.."."..appId.."'"
+               return app
 
       return conf
 

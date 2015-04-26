@@ -56,6 +56,6 @@ return {
         cobook: 'Cobook'
         blink: 'Blink1Control'
         battleNet: 'Battle.net'
-        airmail: { name: 'Airmail Beta', title: 'Airmail' }
+        airmail: { title: 'Airmail Beta', name: 'Airmail' }
     }
 }
