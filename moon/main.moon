@@ -48,4 +48,4 @@ hs.hotkey.bind hyper, 'd', ->
 -- Layout Test
 hs.hotkey.bind hyper, 'c', ->
     hs.alert "hyper+c"
-    config\layout 'laptop'
+    config\layout 'playground'

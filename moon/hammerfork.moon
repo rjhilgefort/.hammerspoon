@@ -3,11 +3,12 @@ commonLaunch = {
     'messages', 'spotify', 'simplify',
     'onePassMini', 'clear', 'sunrise',
     'airmail', 'dash', 'blink',
-    'hammerspoon', 'hipChat', 'dropbox'
+    'hammerspoon', 'hipChat', 'dropbox',
+    'battleNet'
 }
 commonKill = {
-    'systemPrefs', 'onePass', 'battleNet',
-    'xcode', 'cobook'
+    'systemPrefs', 'onePass',
+    'xcode', 'cobook', 'preview'
 }
 
 return {
@@ -16,6 +17,17 @@ return {
     -- Layouts
     ---------------------------------------------------------------------------
     layouts: {
+
+        playground: {
+            launch: {}
+            kill: commonKill
+        }
+
+        work: {
+            kill: {
+                'battleNet', 'hearthstone', 'preview'
+            }
+        }
 
         laptop: {
             launch: commonLaunch
@@ -57,5 +69,6 @@ return {
         blink: 'Blink1Control'
         battleNet: 'Battle.net'
         airmail: { title: 'Airmail Beta', name: 'Airmail' }
+        preview: 'Preview'
     }
 }
