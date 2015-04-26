@@ -22,7 +22,7 @@ class Reload
     -- Class ------------------------------------------------------------------
     @defaultHammerspoonHome = os.getenv("HOME") .. "/.hammerspoon/"
 
-    @reload: () ->
+    @reload: () =>
         hs.reload!
         notify = hs.notify.new({ title: "Hammerspoon Config Loaded" })
         notify\send!
