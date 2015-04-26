@@ -29,7 +29,12 @@ I decided to write this thing in Moonscript because Lua was very verbouse (and q
 - `reload.moon`: A simple reload class I wrote around the `hs.reload` methods.
 - `main.moon`: The entrypoint for the application and where you'll set up 'binds' and other things (for now- I plan to move it).
 
+
 Tests
 -----
 
-[Busted](http://olivinelabs.com/busted/) seemed to be the only viable testing framework for Lua. Running tests is as easy as `busted ./moon/tests/test.moon`
+[Busted](http://olivinelabs.com/busted/) seemed to be the only viable testing framework for Lua. Running tests is as easy as:
+
+```shell
+busted ./moon/tests/test.moon
+```
