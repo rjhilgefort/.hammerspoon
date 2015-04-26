@@ -28,9 +28,8 @@ class Config
 
       -- launch each and try to hide it based on title
       if _.has layout, 'launch' then
-         _.each layout.launch, (key, appId) ->
-            app = @conf.apps[appId]
-            hs.application.launchOrFocus(app.id)
+         _.each layout.launch, (appId, app) ->
+            hs.application.launchOrFocus(app.name)
             application = hs.appfinder.appFromName(app.title)
             if _.isPresent application then application\hide!
 
