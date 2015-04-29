@@ -2,10 +2,18 @@ _ = require "lua/utils/moses"
 message = require "lua/utils/message"
 
 
-class Config
-   -- Helpers ----------------------------------------------------------------
+-- TODO:
+--      - create list of valid keys/binds
 
-   -- Instance ---------------------------------------------------------------
+
+class Config
+   -------------------------------------------------------------------------------
+   -- Helpers
+   -------------------------------------------------------------------------------
+
+   -------------------------------------------------------------------------------
+   -- Instance
+   -------------------------------------------------------------------------------
    new: (conf) =>
       -- TODO: if apps is string and ends in json, read from there
       -- if _.isString conf then -- TODO: load config file on the fly from path (conf)
@@ -40,11 +48,16 @@ class Config
                application\kill!
 
 
-   -- Class ------------------------------------------------------------------
+   -------------------------------------------------------------------------------
+   -- Class
+   -------------------------------------------------------------------------------
+   @modifierKeys: { 'cmd', 'alt', 'ctrl', 'shift' }
+
    @processConfTable: (conf) =>
       conf = _.enTable conf
 
       -- Handle `apps`
+      ----------------
       conf.apps = _.enTable conf.apps
       conf.apps = _.map conf.apps, (key, app) ->
          if _.isString app then app = { title: app }
@@ -53,6 +66,7 @@ class Config
          return app
 
       -- Handle `layouts`
+      -------------------
       conf.layouts = _.enTable conf.layouts
       conf.layouts = _.map conf.layouts, (layoutId, layout) ->
          layout = _.enTable layout
@@ -65,6 +79,41 @@ class Config
                app = conf.apps[appId]
                if _.isNil app then return message.alert "APP NOT FOUND: 'layouts."..layoutId.."."..listId.."."..appId.."'"
                return app
+
+      -- Handle `keys`
+      -----------------
+      conf.keys = _.enTable conf.keys
+      conf.keys = _.map conf.keys, (alias, keys) ->
+         keys = _.enTable keys, nil
+         if _.isNil keys then return keys
+         return _.map keys, (index, key) ->
+            if not _.contains @modifierKeys, key
+               message.alert "disallowed key in `keys`: '"..key.."'"
+               key = nil
+            return key
+
+      -- Handle `binds`
+      -----------------
+      inflateBind = (keys, key, bind) ->
+         keys = _.enTable keys
+         key = _.enString key
+
+         key = conf.keys[key] or { key }
+         -- TODO: check to see if 'key' is a modifier key
+         keys = _.union keys, key
+
+         if _.isTable bind
+            return _.map bind, (childKey, childBind) ->
+               return inflateBind(keys, childKey, childBind)
+
+         return {
+            keys: keys
+            bind: _.enFunction bind
+         }
+
+      _.print conf.binds
+      conf.binds = inflateBind(nil, nil, conf.binds)
+      _.print conf.binds
 
       return conf
 

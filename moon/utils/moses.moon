@@ -12,8 +12,8 @@ generateEnsure = (genType='') ->
 
    return (obj, default) ->
       -- ensure default is present and valid
-      if _.isNil default then default = defaults[genType]
-      if not isType default then default = defaults[genType]
+      -- if _.isNil default then default = defaults[genType]
+      -- if not isType default then default = defaults[genType]
 
       if not isType obj then obj = default
       return obj

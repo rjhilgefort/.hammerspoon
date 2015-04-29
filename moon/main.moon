@@ -41,9 +41,9 @@ hyper = { 'cmd', 'alt', 'ctrl' }
 hs.hotkey.bind hyper, 'r', reload\reload
 
 -- Playground
-hs.hotkey.bind hyper, 's', ->
-    hs.alert "hyper+s"
-    _.each hs.application.runningApplications!, (key, app) -> _.print app\title!
+-- hs.hotkey.bind hyper, 's', ->
+    -- hs.alert "hyper+s"
+    -- _.each hs.application.runningApplications!, (key, app) -> _.print app\title!
 
 -- Layout Test
 hs.hotkey.bind hyper, 'c', ->
