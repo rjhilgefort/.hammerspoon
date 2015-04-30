@@ -11,6 +11,7 @@ class Config
    -- Helpers
    -------------------------------------------------------------------------------
 
+
    -------------------------------------------------------------------------------
    -- Instance
    -------------------------------------------------------------------------------
@@ -18,11 +19,45 @@ class Config
       -- TODO: if apps is string and ends in json, read from there
       -- if _.isString conf then -- TODO: load config file on the fly from path (conf)
       if not _.isTable conf then return message.badTable 'conf'
-      @conf = @@processConfTable conf
+      @conf = conf
+
+      @processConfTable!
+      @setupBinds!
 
 
    processConfTable: =>
       @conf = @@processConfTable @conf
+
+
+   setupBinds: =>
+      @setupBind nil, nil, @conf.binds
+
+
+   -- Used to register hotkey binds in `config.binds` but can be called manually
+   setupBind: (modifiers, key={}, bind) =>
+      modifiers = _.enTable modifiers
+
+      -- Check for alias and modifier key status
+      if (_.isString key) and (_.isPresent @conf.keys[key])
+         key = @conf.keys[key]
+      if (_.isString key) and (_.contains @@modifierKeys, key)
+         key = { key }
+
+      -- If it's a table at this point, it's a modifier key. Recurse.
+      if _.isTable key
+         bind = _.enTable bind
+         modifiers = _.union modifiers, key
+         _.each bind, (key, bind) ->
+            @setupBind modifiers, key, bind
+         return true
+
+      -- `key` should be a string at this point, process the bind
+      key = _.enString key
+      bind = _.enFunction bind
+      if _.isEmpty modifiers return message.alert "Bind has not modifiers: "..key
+
+      -- setup bind
+      hs.hotkey.bind modifiers, key, bind
 
 
    -- TODO: Capture all visible windows on all screens before doing anything else, then
@@ -94,33 +129,7 @@ class Config
 
       -- Handle `binds`
       -----------------
-      inflateBind = (modifiers, key={}, bind) ->
-         modifiers = _.enTable modifiers
-
-         -- Check for alias and modifier key status
-         if (_.isString key) and (_.isPresent conf.keys[key])
-            key = conf.keys[key]
-         if (_.isString key) and (_.contains @modifierKeys, key)
-            key = { key }
-
-         -- If it's a table at this point, it's a modifier key. Recurse.
-         if _.isTable key
-            bind = _.enTable bind
-            modifiers = _.union modifiers, key
-            _.each bind, (key, bind) ->
-               inflateBind modifiers, key, bind
-            return true
-
-         -- `key` should be a string at this point, process the bind
-         key = _.enString key
-         bind = _.enFunction bind
-         if _.isEmpty modifiers return message.alert "Bind has not modifiers: "..key
-
-         -- setup bind
-         hs.hotkey.bind modifiers, key, bind
-
-
-      inflateBind nil, nil, conf.binds
+      conf.binds = _.enTable conf.binds
 
       return conf
 

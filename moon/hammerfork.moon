@@ -57,20 +57,6 @@ return {
     }
 
     binds: {
-        -- Will get a warning about empty modifiers, no hotkeys will be set up
-        t: ->
-        -- Basic binding setup, not using and `keys` aliases
-        cmd: {
-            alt: {
-                j: ->
-                    hs.alert "joo"
-                ctrl: {
-                    k: ->
-                        hs.alert "kar"
-                }
-            }
-        }
-        -- Bind setup using a `keys` alias
         hyper: {
             l: ->
                 hs.alert "laz"
