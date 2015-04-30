@@ -94,26 +94,33 @@ class Config
 
       -- Handle `binds`
       -----------------
-      inflateBind = (keys, key, bind) ->
-         keys = _.enTable keys
+      inflateBind = (modifiers, key={}, bind) ->
+         modifiers = _.enTable modifiers
+
+         -- Check for alias and modifier key status
+         if (_.isString key) and (_.isPresent conf.keys[key])
+            key = conf.keys[key]
+         if (_.isString key) and (_.contains @modifierKeys, key)
+            key = { key }
+
+         -- If it's a table at this point, it's a modifier key. Recurse.
+         if _.isTable key
+            bind = _.enTable bind
+            modifiers = _.union modifiers, key
+            _.each bind, (key, bind) ->
+               inflateBind modifiers, key, bind
+            return true
+
+         -- `key` should be a string at this point, process the bind
          key = _.enString key
+         bind = _.enFunction bind
+         if _.isEmpty modifiers return message.alert "Bind has not modifiers: "..key
 
-         key = conf.keys[key] or { key }
-         -- TODO: check to see if 'key' is a modifier key
-         keys = _.union keys, key
+         -- setup bind
+         hs.hotkey.bind modifiers, key, bind
 
-         if _.isTable bind
-            return _.map bind, (childKey, childBind) ->
-               return inflateBind(keys, childKey, childBind)
 
-         return {
-            keys: keys
-            bind: _.enFunction bind
-         }
-
-      _.print conf.binds
-      conf.binds = inflateBind(nil, nil, conf.binds)
-      _.print conf.binds
+      inflateBind nil, nil, conf.binds
 
       return conf
 

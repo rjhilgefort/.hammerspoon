@@ -1,7 +1,7 @@
 @rjhilgefort's Hammerspoon configuration
 ========================================
 
-This is not your mama's standard .hammerspoon. I'm still fleshing out configuration strategies and features. Check back later for a pretty document (or poke around the source).
+This is not your mama's standard .hammerspoon. I'm still fleshing out configuration strategies and features. Check back later for a pretty document (or poke around the source). Be sure to check out the Wiki for examples and what not.
 
 
 Installation

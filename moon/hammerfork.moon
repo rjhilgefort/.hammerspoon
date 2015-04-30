@@ -53,27 +53,27 @@ return {
     -- Binds
     ---------------------------------------------------------------------------
     keys: {
-        hyper: { 'cmd', 'alt', 'ctrl' }
+        hyper: { 'cmd', 'alt', 'ctrl', 'shift' }
     }
 
     binds: {
-        -- t: {} -- TODO: handle
+        -- Will get a warning about empty modifiers, no hotkeys will be set up
+        t: ->
+        -- Basic binding setup, not using and `keys` aliases
         cmd: {
             alt: {
-                p: ->
-                    hs.alert "hyper+s"
-                    hs.alert "bitches"
+                j: ->
+                    hs.alert "joo"
                 ctrl: {
-                    s: ->
-                        hs.alert "hyper+s"
-                        hs.alert "bitches"
+                    k: ->
+                        hs.alert "kar"
                 }
             }
         }
+        -- Bind setup using a `keys` alias
         hyper: {
-            s: ->
-                hs.alert "hyper+s"
-                hs.alert "bitches"
+            l: ->
+                hs.alert "laz"
         }
     }
 
